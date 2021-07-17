@@ -1,0 +1,12 @@
+e cmd/go/modfetch/repo.go
+/^import (/,/^)/ g//\
+/"os"/d\
+/"strconv"/d
+/"golang.org.x.mod.module"/d
+.
+/internal.cfg/,/internal.web/ d
+.
+/^...Re: module paths, import paths,/,/^func.SortVersions/-2 d
+/^...A loggingRepo is/,/^...A notExistError/-1 d
+.
+w
