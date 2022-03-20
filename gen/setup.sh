@@ -13,6 +13,7 @@ gopackages="\
 
 cmdintpkgs="\
 	browser\
+	quoted\
 "
 
 gocmdintpkgs="\
