@@ -6,7 +6,6 @@ e cmd/go/modfetch/repo.go
 .
 /internal.cfg/,/internal.web/ d
 .
-/^...Re: module paths, import paths,/,/^func.SortVersions/-2 d
-/^...A loggingRepo is/,/^...A notExistError/-1 d
+/^...Re: module paths, import paths,/,/^...A notExistError/-1 d
 .
 w

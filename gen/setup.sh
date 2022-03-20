@@ -28,7 +28,6 @@ gocmdpackages="\
 	modfetch/codehost\
 	modfetch/repo.go\
 	modfetch/coderepo.go\
-	modfetch/pseudo.go\
 "
 
 goroot=`go env GOROOT`
@@ -57,6 +56,7 @@ for f in `find . -type f -name '*.go'`; do
 	mv $f $f,
 	sed -f gen/adjimports.sed <$f, >$f
 	rm -f $f,
+	gofmt -r 'any -> interface{}' -w $f
 done
 
 mkdir cmd/go/cfg
