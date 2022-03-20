@@ -19,7 +19,6 @@ gocmdintpkgs="\
 	par\
 	lockedfile\
 	str\
-	fsys\
 	web\
 	auth\
 "

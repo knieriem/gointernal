@@ -10,7 +10,6 @@ import (
 	"io/fs"
 	"os"
 
-	"github.com/knieriem/gointernal/cmd/go/internal/fsys"
 	"github.com/knieriem/gointernal/cmd/go/internal/lockedfile/internal/filelock"
 )
 
@@ -20,7 +19,7 @@ func openFile(name string, flag int, perm fs.FileMode) (*os.File, error) {
 	// calls for Linux and Windows anyway, so it's simpler to use that approach
 	// consistently.
 
-	f, err := fsys.OpenFile(name, flag&^os.O_TRUNC, perm)
+	f, err := os.OpenFile(name, flag&^os.O_TRUNC, perm)
 	if err != nil {
 		return nil, err
 	}
