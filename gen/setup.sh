@@ -13,6 +13,9 @@ gopackages="\
 
 cmdintpkgs="\
 	browser\
+"
+
+cmdpkgs="\
 	quoted\
 "
 
@@ -37,6 +40,9 @@ mkdir internal
 (cd $goroot/src/internal && tar cf - $gopackages) | (cd internal && tar xf -)
 
 mkdir cmd
+
+(cd $goroot/src/cmd/internal && tar cf - $cmdpkgs) | (cd cmd && tar xf - )
+
 mkdir cmd/internal
 
 (cd $goroot/src/cmd/internal && tar cf - $cmdintpkgs) | (cd cmd/internal && tar xf - )
