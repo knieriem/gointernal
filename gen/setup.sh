@@ -24,7 +24,6 @@ gocmdintpkgs="\
 "
 
 gocmdpackages="\
-	txtar\
 	modfetch/codehost\
 	modfetch/repo.go\
 	modfetch/coderepo.go\
