@@ -37,6 +37,8 @@ clipkgs="\
 
 gocmdpackages="\
 	base/base.go\
+	base/flag.go\
+	work/build.go\
 	\
 	modfetch/codehost\
 	modfetch/repo.go\
