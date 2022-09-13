@@ -56,7 +56,7 @@ modified="\
 	cmd/cli/internal/help/help.go\
 "
 
-goroot=`go1.18 env GOROOT`
+goroot=`go1.18.6 env GOROOT`
 
 copy() {
 	dest=$1
