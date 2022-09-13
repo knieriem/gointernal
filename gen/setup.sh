@@ -38,6 +38,7 @@ clipkgs="\
 gocmdpackages="\
 	base/base.go\
 	base/flag.go\
+	cfg/cfg.go\
 	work/build.go\
 	\
 	modfetch/codehost\
@@ -48,6 +49,7 @@ gocmdpackages="\
 modified="\
 	cmd/go/base/base.go\
 	cmd/go/base/flag.go\
+	cmd/go/cfg/cfg.go\
 	cmd/go/work/build.go\
 	\
 	cmd/cli/main.go\
@@ -103,13 +105,5 @@ for f in `find cmd internal -type f -name '*.go'`; do
 	rm -f $f,
 	gofmt -r 'any -> interface{}' -w $f
 done
-
-mkdir cmd/go/cfg
-cat <<EOF > cmd/go/cfg/cfg.go
-package cfg
-
-var BuildX bool
-var GOMODCACHE string
-EOF
 
 go fmt ./...
