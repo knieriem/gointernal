@@ -27,38 +27,75 @@ gocmdintpkgs="\
 	auth\
 "
 
+cliintpkgs="\
+	help/help.go\
+"
+
+clipkgs="\
+	main.go\
+"
+
 gocmdpackages="\
+	base/base.go\
+	\
 	modfetch/codehost\
 	modfetch/repo.go\
 	modfetch/coderepo.go\
 "
 
-goroot=`go env GOROOT`
+modified="\
+	cmd/go/base/base.go\
+	cmd/go/base/flag.go\
+	cmd/go/work/build.go\
+	\
+	cmd/cli/main.go\
+	cmd/cli/internal/help/help.go\
+"
 
-mkdir internal
+goroot=`go1.18 env GOROOT`
 
-(cd $goroot/src/internal && tar cf - $gopackages) | (cd internal && tar xf -)
+copy() {
+	dest=$1
+	src=$2
+	shift
+	shift
+	mkdir $dest
+	(cd $goroot/src/$src && tar cf - $@) | (cd $dest && tar xf -)
+}
 
-mkdir cmd
+msg() {
+	echo '*' $@
+}
 
-(cd $goroot/src/cmd/internal && tar cf - $cmdpkgs) | (cd cmd && tar xf - )
+msg backup
+mkdir _prev
+mv internal _prev/internal
+mv cmd _prev/cmd
 
-mkdir cmd/internal
+msg import files from $goroot
+copy internal internal $gopackages
+copy cmd cmd/internal $cmdpkgs
+copy cmd/internal cmd/internal $cmdintpkgs
+copy cmd/go cmd/go/internal $gocmdpackages
+copy cmd/go/internal cmd/go/internal $gocmdintpkgs
 
-(cd $goroot/src/cmd/internal && tar cf - $cmdintpkgs) | (cd cmd/internal && tar xf - )
+copy cmd/cli cmd/go $clipkgs
+copy cmd/cli/internal cmd/go/internal $cliintpkgs
 
-mkdir cmd/go
+msg put original files of modified sources aside
+# save originals of modified sources
+mkdir -p _orig
+(tar cf - $modified) | (cd _orig && tar xf -)
 
-(cd $goroot/src/cmd/go/internal && tar cf - $gocmdpackages) | (cd cmd/go && tar xf - )
+msg restore own modifications
+(cd _prev && tar cf - $modified) | tar xf -
 
-mkdir cmd/go/internal
-
-(cd $goroot/src/cmd/go/internal && tar cf - $gocmdintpkgs) | (cd cmd/go/internal && tar xf - )
-
-ed < gen/modfetch_repo.go.ed
+msg adjust modfetch/repo.go
+ed -s < gen/modfetch_repo.go.ed
 cp gen/_coderepo_ext.go cmd/go/modfetch/coderepo_ext.go
 
-for f in `find . -type f -name '*.go'`; do
+msg adjust import paths, replace '"any"'
+for f in `find cmd internal -type f -name '*.go'`; do
 	mv $f $f,
 	sed -f gen/adjimports.sed <$f, >$f
 	rm -f $f,

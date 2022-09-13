@@ -1,11 +1,8 @@
 e cmd/go/modfetch/repo.go
-/^import (/,/^)/ g//\
-/"os"/d\
+/^import (/,/^)/ g//
+/"os"/d
 /"strconv"/d
 /"golang.org.x.mod.module"/d
-.
 /internal.cfg/,/internal.web/ d
-.
 /^...Re: module paths, import paths,/,/^...A notExistError/-1 d
-.
 w
