@@ -39,6 +39,7 @@ gocmdpackages="\
 	base/base.go\
 	base/flag.go\
 	cfg/cfg.go\
+	envcmd/env.go\
 	work/build.go\
 	\
 	modfetch/codehost\
@@ -50,6 +51,7 @@ modified="\
 	cmd/go/base/base.go\
 	cmd/go/base/flag.go\
 	cmd/go/cfg/cfg.go\
+	cmd/go/envcmd/env.go\
 	cmd/go/work/build.go\
 	\
 	cmd/cli/main.go\
