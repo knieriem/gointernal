@@ -189,7 +189,7 @@ func runEnvW(args []string) {
 		}
 		add[key] = val
 		if osVal := osEnv[key]; osVal != "" && osVal != val {
-			fmt.Fprintf(os.Stderr, "warning: go env -w %s=... does not override conflicting OS environment variable\n", key)
+			fmt.Fprintf(os.Stderr, "warning: %s env -w %s=... does not override conflicting OS environment variable\n", base.Prog.UsageLine, key)
 		}
 	}
 
@@ -274,7 +274,7 @@ func getOrigEnv(key string) string {
 func checkEnvWrite(key, val string) error {
 	// To catch typos and the like, check that we know the variable.
 	if !cfg.CanGetenv(key) {
-		return fmt.Errorf("unknown go command variable %s", key)
+		return fmt.Errorf("unknown %s command variable %s", base.Prog.UsageLine, key)
 	}
 
 	// Some variables can only have one of a few valid values. If set to an
