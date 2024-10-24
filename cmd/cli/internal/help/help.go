@@ -50,7 +50,7 @@ Args:
 	return
 }
 
-var usageTemplate = `{{.Long | trim}}
+var usageTemplate = `{{.Long | fixProg | trim}}
 
 Usage:
 
@@ -74,9 +74,9 @@ Use "{{prog}} help{{with .LongName}} {{.}}{{end}} <topic>" for more information 
 {{end}}{{end}}
 `
 
-var helpTemplate = `{{if .Runnable}}usage: {{.UsageLine | strip " --"}}
+var helpTemplate = `{{if .Runnable}}usage: {{.UsageLine | fixProg | strip " --"}}
 
-{{end}}{{.Long | trim}}
+{{end}}{{.Long | fixProg | trim}}
 `
 
 var documentationTemplate = `{{range .}}{{if .Short}}{{.Short | capitalize}}
@@ -85,7 +85,7 @@ var documentationTemplate = `{{range .}}{{if .Short}}{{.Short | capitalize}}
 
 	{{.UsageLine | strip " --"}}
 
-{{end}}{{.Long | trim}}
+{{end}}{{.Long | fixProg | trim}}
 
 
 {{end}}{{end}}`
@@ -140,6 +140,9 @@ func (w *errWriter) Write(b []byte) (int, error) {
 func tmpl(w io.Writer, text string, data interface{}) {
 	t := template.New("top")
 	t.Funcs(template.FuncMap{
+		"fixProg": func(s string) string {
+			return strings.Replace(s, "<!>", base.Prog.UsageLine, -1)
+		},
 		"prog": func() string {
 			return base.Prog.UsageLine
 		},

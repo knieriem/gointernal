@@ -75,6 +75,9 @@ func (c *Command) LongName() string {
 	if name == Prog.UsageLine {
 		return ""
 	}
+	if _, found := strings.CutPrefix(name, "<!> "); found {
+		return name[len("<!> "):]
+	}
 	return strings.TrimPrefix(name, Prog.UsageLine+" ")
 }
 
@@ -122,6 +125,7 @@ func Errorf(format string, args ...interface{}) {
 	if strings.HasPrefix(format, "go: ") {
 		format = Prog.UsageLine + format[2:]
 	}
+	format = strings.Replace(format, "<!>", Prog.UsageLine, -1)
 	log.Printf(format, args...)
 	SetExitStatus(1)
 }

@@ -22,7 +22,7 @@ import (
 )
 
 var CmdEnv = &base.Command{
-	UsageLine: "<prog> env [-json] [-u] [-w] [var ...]",
+	UsageLine: "<!> env [-json] [-u] [-w] [var ...]",
 	Short:     "print environment information",
 	Long: `
 Env prints environment information.
@@ -37,13 +37,13 @@ instead of as a shell script.
 
 The -u flag requires one or more arguments and unsets
 the default setting for the named environment variables,
-if one has been set with '<prog> env -w'.
+if one has been set with '<!> env -w'.
 
 The -w flag requires one or more arguments of the
 form NAME=VALUE and changes the default settings
 of the named environment variables to the given values.
 
-For more about environment variables, see 'go help environment'.
+For more about environment variables, see '<!> help environment'.
 	`,
 }
 
@@ -206,7 +206,7 @@ func runEnvW(args []string) {
 func runEnvU(args []string) {
 	// Process and sanity-check command line.
 	if len(args) == 0 {
-		base.Fatalf("go: 'go env -u' requires an argument")
+		base.Fatalf("go: '<!> env -u' requires an argument")
 	}
 	del := make(map[string]bool)
 	for _, arg := range args {
@@ -298,11 +298,11 @@ func checkEnvWrite(key, val string) error {
 func updateEnvFile(add map[string]string, del map[string]bool) {
 	file, err := cfg.EnvFile()
 	if file == "" {
-		base.Fatalf("go: cannot find go env config: %v", err)
+		base.Fatalf("go: cannot find <!> env config: %v", err)
 	}
 	data, err := os.ReadFile(file)
 	if err != nil && (!os.IsNotExist(err) || len(add) == 0) {
-		base.Fatalf("go: reading go env config: %v", err)
+		base.Fatalf("go: reading <!> env config: %v", err)
 	}
 
 	lines := strings.SplitAfter(string(data), "\n")
@@ -360,7 +360,7 @@ func updateEnvFile(add map[string]string, del map[string]bool) {
 		os.MkdirAll(filepath.Dir(file), 0777)
 		err = os.WriteFile(file, data, 0666)
 		if err != nil {
-			base.Fatalf("go: writing go env config: %v", err)
+			base.Fatalf("go: writing <!> env config: %v", err)
 		}
 	}
 }
