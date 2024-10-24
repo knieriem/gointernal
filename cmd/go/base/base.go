@@ -119,6 +119,9 @@ func Fatalf(format string, args ...interface{}) {
 }
 
 func Errorf(format string, args ...interface{}) {
+	if strings.HasPrefix(format, "go: ") {
+		format = Prog.UsageLine + format[2:]
+	}
 	log.Printf(format, args...)
 	SetExitStatus(1)
 }
