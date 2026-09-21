@@ -7,5 +7,9 @@ Included packages:
 - cmd/go/modfetch/codehost
 - cmd/go/txtar
 
-The files are in sync with Go 1.16.6. The exact steps how the extraction
+- cmd/cli as a generalized version of cmd/go's
+  subcommand mechanism
+- cmd/go/envcmd
+
+The files are in sync with Go 1.18.6. The exact steps how the extraction
 works, and which modifications get applied, are defined in gen/setup.sh.
