@@ -86,7 +86,7 @@ func argKey(arg string) string {
 	return arg[:i]
 }
 
-func runEnv(ctx context.Context, cmd *base.Command, args []string) {
+func runEnv(ctx context.Context, cmd *base.Command, args []string) error {
 	if *envJson && *envU {
 		base.Fatalf("go: cannot use -json with -u")
 	}
@@ -101,12 +101,12 @@ func runEnv(ctx context.Context, cmd *base.Command, args []string) {
 	// so they can be used to recover from an invalid configuration.
 	if *envW {
 		runEnvW(args)
-		return
+		return nil
 	}
 
 	if *envU {
 		runEnvU(args)
-		return
+		return nil
 	}
 
 	env := cfg.CmdEnv
@@ -152,15 +152,16 @@ func runEnv(ctx context.Context, cmd *base.Command, args []string) {
 				fmt.Printf("%s\n", findEnv(env, name))
 			}
 		}
-		return
+		return nil
 	}
 
 	if *envJson {
 		printEnvAsJSON(env)
-		return
+		return nil
 	}
 
 	PrintEnv(os.Stdout, env)
+	return nil
 }
 
 func runEnvW(args []string) {

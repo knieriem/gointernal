@@ -52,7 +52,11 @@ BigCmdLoop:
 			if !cmd.Runnable() {
 				continue
 			}
-			invoke(cmd, args)
+			err := invoke(cmd, args)
+			if err != nil {
+				fmt.Fprintf(os.Stderr, "%v\n", err)
+				base.SetExitStatus(1)
+			}
 			base.Exit()
 			return
 		}
@@ -67,7 +71,7 @@ BigCmdLoop:
 	}
 }
 
-func invoke(cmd *base.Command, args []string) {
+func invoke(cmd *base.Command, args []string) error {
 	cmd.Flag.Usage = func() { cmd.Usage() }
 	if cmd.CustomFlags {
 		args = args[1:]
@@ -76,7 +80,7 @@ func invoke(cmd *base.Command, args []string) {
 		args = cmd.Flag.Args()
 	}
 	ctx := context.Background()
-	cmd.Run(ctx, cmd, args)
+	return cmd.Run(ctx, cmd, args)
 }
 
 func init() {
